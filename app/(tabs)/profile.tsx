@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TextInput, Button } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import styles from "../styles";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const UserPage = ({ route }) => {
-    const navigation = useNavigation();
+type RootStackParamList = {
+    InfoPage: { info: { id: number; university: string; Title: string; User: string; Date: string; image: string; price: string; description: string } };
+};
+
+const Profile = ({ route }) => {
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const { formData } = route.params;
     const [modalVisible, setModalVisible] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -14,7 +18,6 @@ const UserPage = ({ route }) => {
     };
 
     const handleReport = () => {
-        // Add your report handling logic here
         alert("Reported!");
     };
 
@@ -23,7 +26,6 @@ const UserPage = ({ route }) => {
     };
 
     const sendMessage = () => {
-        // Add your message sending logic here
         alert(`Message sent: ${message}`);
         setModalVisible(false);
         setMessage("");
@@ -31,10 +33,10 @@ const UserPage = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Image source={require("@/assets/images/bloke.jpg")} style={[styles.logo, { width: 200, height: 200 }]} />
-            <Text style={localStyles.name}>John Doe</Text>
+            <Image source={require("@/assets/images/block2.jpg")} style={[styles.profileImage, { width: 200, height: 200 }]} />
+            <Text style={localStyles.name}>Example Person</Text>
+            <Text style={localStyles.info}>{formData.university}</Text>
             <Text style={localStyles.info}>Age: 20</Text>
-            <Text style={localStyles.info}>Location: University of Warwick</Text>
             <Text style={localStyles.info}>Rating:</Text>
             <View style={localStyles.stars}>
                 {[...Array(5)].map((_, index) => (
@@ -44,14 +46,6 @@ const UserPage = ({ route }) => {
             <View style={localStyles.buttonContainer}>
                 <TouchableOpacity style={localStyles.button} onPress={handleBack}>
                     <Text style={localStyles.buttonText}>Back</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={localStyles.button} onPress={handleMessage}>
-                    <Text style={localStyles.buttonText}>Message</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={[localStyles.button, { backgroundColor: "red" }]} onPress={handleReport}>
-                    <Text style={localStyles.buttonText}>Report</Text>
                 </TouchableOpacity>
             </View>
 
@@ -71,16 +65,16 @@ const UserPage = ({ route }) => {
                 </View>
             </Modal>
             <View style={styles.bottomBar}>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Main", { formData: { university: "University of Bath" } })}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Main", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Home</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("MessageScreen")}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("MessageScreen", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Chats</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Profile")}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Profile", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Profile</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Sell")}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Sell", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Sell</Text>
                 </TouchableOpacity>
             </View>
@@ -112,20 +106,6 @@ const localStyles = StyleSheet.create({
         marginTop: 20,
         alignItems: "center",
         margin: 10,
-    },
-    reportButton: {
-        backgroundColor: "red",
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
-        alignItems: "center",
-    },
-    messageButton: {
-        backgroundColor: "blue",
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
-        alignItems: "center",
     },
     buttonText: {
         color: "white",
@@ -167,4 +147,31 @@ const localStyles = StyleSheet.create({
     },
 });
 
-export default UserPage;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff",
+    },
+    profileImage: {
+        width: 100,
+        height: 100,
+        marginBottom: 10,
+    },
+    bottomBar: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+    },
+    bottomBarButton: {
+        padding: 10,
+    },
+    bottomBarButtonText: {
+        fontSize: 16,
+    },
+});
+
+export default Profile;

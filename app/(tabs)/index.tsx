@@ -7,6 +7,8 @@ import styles from "../styles";
 import MainScreen from "./main";
 import InfoPage from "./info";
 import UserPage from "./user";
+import MessageScreen from "./message";
+import Profile from "./profile";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,8 @@ const HomeScreen = () => {
             <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
             <Stack.Screen name="InfoPage" component={InfoPage} />
             <Stack.Screen name="UserInfo" component={UserPage} />
+            <Stack.Screen name="MessageScreen" component={MessageScreen} />
+            <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
     );
 };
@@ -91,6 +95,8 @@ const StepTwoScreen = ({ route, navigation }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [disclaimerVisible, setDisclaimerVisible] = useState(false);
+    const [agreeToTerms, setAgreeToTerms] = useState(false);
 
     const handleSubmit = () => {
         const { firstName, lastName, age, university } = updatedFormData;
@@ -157,11 +163,29 @@ const StepTwoScreen = ({ route, navigation }) => {
                             </Modal>
                             <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
                                 <Button title="Back" onPress={() => navigation.goBack()} />
-                                <Button title="Submit" onPress={handleSubmit} />
+                                <Button title="Submit" onPress={() => setDisclaimerVisible(true)} />
                             </View>
                         </View>
                     </>
                 )}
+                <Modal visible={disclaimerVisible} transparent={true} animationType="slide">
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>Disclaimer</Text>
+                            <Text style={{ marginBottom: 20 }}>Use at your own risk. By proceeding, you agree to our terms and conditions.</Text>
+
+                            <Button
+                                title="I agree to the terms and conditions"
+                                onPress={() => {
+                                    setAgreeToTerms(true);
+                                    setDisclaimerVisible(false);
+                                    handleSubmit();
+                                }}
+                            />
+                            <Button title="Cancel" onPress={() => setDisclaimerVisible(false)} />
+                        </View>
+                    </View>
+                </Modal>
             </ThemedView>
         </TouchableWithoutFeedback>
     );

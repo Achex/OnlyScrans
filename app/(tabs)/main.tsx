@@ -66,7 +66,7 @@ const MainScreen = ({ route }) => {
                     .filter((x) => x.university === university)
                     .filter((x) => x.Title.toLowerCase().includes(search.toLowerCase()))
                     .map((data, index) => (
-                        <TouchableOpacity key={index} onPress={() => navigation.navigate("InfoPage", { info: data })}>
+                        <TouchableOpacity key={index} onPress={() => navigation.navigate("InfoPage", { info: data, formData: formData })}>
                             <ThemedView key={index} style={styles.container}>
                                 <Image source={imageMap[data.image]} style={styles.image} />
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -78,13 +78,16 @@ const MainScreen = ({ route }) => {
                     ))}
             </ScrollView>
             <View style={styles.bottomBar}>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Chats")}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Main", { formData: formData })}>
+                    <Text style={styles.bottomBarButtonText}>Home</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("MessageScreen", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Chats</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Profile")}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Profile", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Profile</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Sell")}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Sell", { formData: formData })}>
                     <Text style={styles.bottomBarButtonText}>Sell</Text>
                 </TouchableOpacity>
             </View>

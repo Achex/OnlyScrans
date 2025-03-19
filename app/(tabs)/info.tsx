@@ -25,7 +25,7 @@ import { RouteProp } from "@react-navigation/native";
 
 type RootStackParamList = {
     InfoPage: { info: any };
-    UserInfo: { userId: any };
+    formData: { userId: any };
 };
 
 type InfoPageNavigationProp = StackNavigationProp<RootStackParamList, "InfoPage">;
@@ -33,11 +33,11 @@ type InfoPageRouteProp = RouteProp<RootStackParamList, "InfoPage">;
 
 const InfoPage = ({ route }: { route: InfoPageRouteProp }) => {
     const navigation = useNavigation<InfoPageNavigationProp>();
-    const { info } = route.params;
+    const { info, formData } = route.params;
 
     const handleAddToCart = () => {
         // Add to cart functionality here
-        console.log("Added to cart");
+        alert("Added to cart!");
     };
 
     const handleUserPress = () => {
@@ -67,6 +67,20 @@ const InfoPage = ({ route }: { route: InfoPageRouteProp }) => {
                 <Text style={localStyles.buttonText}>Add to Cart {info.price}</Text>
             </TouchableOpacity>
             <Image source={imageMap[info.image]} style={styles.image} />
+            <View style={styles.bottomBar}>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Main", { formData: formData })}>
+                    <Text style={styles.bottomBarButtonText}>Home</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("MessageScreen", { formData: formData })}>
+                    <Text style={styles.bottomBarButtonText}>Chats</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Profile", { formData: formData })}>
+                    <Text style={styles.bottomBarButtonText}>Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomBarButton} onPress={() => navigation.navigate("Sell", { formData: formData })}>
+                    <Text style={styles.bottomBarButtonText}>Sell</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

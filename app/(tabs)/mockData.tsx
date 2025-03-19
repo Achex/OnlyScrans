@@ -125,7 +125,7 @@ const mockData = [
         Title: "1 year supply of pot noodles",
         User: "John Doe",
         Date: "2025-07-01",
-        image: "potnoodles.jpeg",
+        image: "potnoodles.jpg",
         price: "£20.00",
         description: "I have a 1 year supply of pot noodles that I would like to sell. Help me get rid of them please I have too many please.",
     },
